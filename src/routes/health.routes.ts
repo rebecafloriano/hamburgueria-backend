@@ -1,10 +1,10 @@
-import { Router } from 'express'
+import { Router } from 'express';
 
-import { getHealth } from '../controllers/health.controller'
+import { getHealth } from '../controllers/health.controller';
 console.log('[carregamento] health.routes.ts');
 
-const router = Router()
+const router = Router();
 
-router.get('/', getHealth)
+router.get('/', getHealth);
 
-export default router
+export default router;
