@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Usuario {
+  id        String   @id @default(uuid())
+  nome      String
+  email     String   @unique
+  senha     String
+  telefone  String
+  carrinho  Carrinho?
+  pedidos   Pedido[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Produto {
+  id            String         @id @default(uuid())
+  nome          String
+  descricao     String
+  preco         Decimal
+  disponivel    Boolean        @default(true)
+  imagemUrl     String?
+  itensCarrinho ItemCarrinho[]
+  itensPedido   ItemPedido[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Carrinho {
+  id        String         @id @default(uuid())
+  usuarioId String         @unique
+  usuario   Usuario        @relation(fields: [usuarioId], references: [id])
+  itens     ItemCarrinho[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model ItemCarrinho {
+  id         String   @id @default(uuid())
+  carrinhoId String
+  carrinho   Carrinho @relation(fields: [carrinhoId], references: [id])
+  produtoId  String
+  produto    Produto  @relation(fields: [produtoId], references: [id])
+  quantidade Int
+}
+
+enum StatusPedido {
+  PENDENTE
+  EM_PREPARO
+  SAIU_PARA_ENTREGA
+  ENTREGUE
+  CANCELADO
+}
+
+model Pedido {
+  id              String       @id @default(uuid())
+  usuarioId       String
+  usuario         Usuario      @relation(fields: [usuarioId], references: [id])
+  status          StatusPedido @default(PENDENTE)
+  enderecoEntrega String
+  total           Decimal
+  itens           ItemPedido[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+model ItemPedido {
+  id            String  @id @default(uuid())
+  pedidoId      String
+  pedido        Pedido  @relation(fields: [pedidoId], references: [id])
+  produtoId     String
+  produto       Produto @relation(fields: [produtoId], references: [id])
+  quantidade    Int
+  precoUnitario Decimal
+}
