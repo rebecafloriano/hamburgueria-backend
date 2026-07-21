@@ -12,12 +12,18 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Role {
+  CLIENTE
+  ADMIN
+}
+
 model Usuario {
   id        String   @id @default(uuid())
   nome      String
   email     String   @unique
   senha     String
   telefone  String
+  role      Role     @default(CLIENTE)
   carrinho  Carrinho?
   pedidos   Pedido[]
   createdAt DateTime @default(now())

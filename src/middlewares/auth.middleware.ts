@@ -18,6 +18,7 @@ export function autenticar(req: Request, res: Response, next: NextFunction) {
     try {
         const payload = verificarAccessToken(token);
         req.usuarioId = payload.sub;
+        req.usuarioRole = payload.role;
         next();
     } catch (error) {
         res.status(401).json({ mensagem: 'Token inválido ou expirado' });

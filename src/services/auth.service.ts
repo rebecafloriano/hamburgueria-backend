@@ -32,8 +32,8 @@ export async function login(email: string, senha: string) {
         throw new Error('Credenciais inválidas');
     }
 
-    const accessToken = gerarAccessToken(usuario.id);
-    const refreshToken = gerarRefreshToken(usuario.id);
+    const accessToken = gerarAccessToken(usuario.id, usuario.role);
+    const refreshToken = gerarRefreshToken(usuario.id, usuario.role);
 
     return {
         accessToken,
@@ -51,5 +51,5 @@ export function renovarToken(refreshToken: string) {
         throw new Error('Refresh token inválido ou expirado');
     }
 
-    return { accessToken: gerarAccessToken(payload.sub) };
+    return { accessToken: gerarAccessToken(payload.sub, payload.role) };
 }
