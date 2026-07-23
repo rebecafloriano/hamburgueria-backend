@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { criarUsuario, buscarUsuarioPorEmail } from '../repositories/usuario.repository';
 import { gerarAccessToken, gerarRefreshToken, verificarRefreshToken } from '../utils/jwt';
+import { criarCarrinho } from '../repositories/carrinho.repository';
 
 const SALT_ROUNDS = 10;
 
@@ -17,6 +18,8 @@ export async function registrar(dados: {
 
     const senhaHash = await bcrypt.hash(dados.senha, SALT_ROUNDS);
     const usuario = await criarUsuario({ ...dados, senha: senhaHash });
+
+    await criarCarrinho(usuario.id)
 
     return { id: usuario.id, nome: usuario.nome, email: usuario.email };
 }
