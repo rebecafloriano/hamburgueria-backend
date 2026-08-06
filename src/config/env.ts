@@ -10,4 +10,6 @@ export const env = {
     accessExpiresIn: envValidado.JWT_ACCESS_EXPIRES_IN || '15m',
     refreshExpiresIn: envValidado.JWT_REFRESH_EXPIRES_IN || '7d',
   },
+  ufPadrao: envValidado.UF_PADRAO,
+  
 };

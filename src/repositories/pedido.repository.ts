@@ -1,10 +1,11 @@
 import { prisma } from '../config/prisma'
 import { StatusPedido } from '../generated/prisma/enums'
+import { Endereco } from '../validators/pedido.validator'
 
 export function criarPedidoComItens(dados: {
     usuarioId: string,
     carrinhoId: string,
-    enderecoEntrega: string,
+    enderecoEntrega: Endereco,
     total: number,
     itens: { produtoId: string, quantidade: number, precoUnitario: number }[]
 
@@ -14,7 +15,13 @@ export function criarPedidoComItens(dados: {
         const pedido = await tx.pedido.create({
             data: {
                 usuarioId: dados.usuarioId,
-                enderecoEntrega: dados.enderecoEntrega,
+                rua: dados.enderecoEntrega.rua,
+                numero: dados.enderecoEntrega.numero,
+                complemento: dados.enderecoEntrega.complemento ?? null,
+                cep: dados.enderecoEntrega.cep,
+                bairro: dados.enderecoEntrega.bairro,
+                cidade: dados.enderecoEntrega.cidade,
+
                 total: dados.total
             }
         })

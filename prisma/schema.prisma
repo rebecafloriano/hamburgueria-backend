@@ -74,7 +74,12 @@ model Pedido {
   usuarioId       String
   usuario         Usuario      @relation(fields: [usuarioId], references: [id])
   status          StatusPedido @default(PENDENTE)
-  enderecoEntrega String
+  rua             String
+  numero          String
+  complemento     String?     
+  cep             String
+  bairro          String
+  cidade          String
   total           Decimal
   itens           ItemPedido[]
   createdAt       DateTime     @default(now())

@@ -6,6 +6,7 @@ import {
 } from "../repositories/pedido.repository";
 import { buscarCarrinho } from "./carrinho.service";
 import { StatusPedido } from "../generated/prisma/enums";
+import { Endereco } from "../validators/pedido.validator";
 
 const transicoesPermitidas: Record<StatusPedido, StatusPedido[]> = {
     PENDENTE: ['EM_PREPARO', 'CANCELADO'],
@@ -32,9 +33,11 @@ export function listarPedidos(usuarioId: string) {
     return listarPedidosPorUsuario(usuarioId)
 }
 
-export async function finalizarPedido(usuarioId: string, enderecoEntrega: string) {
+export async function finalizarPedido(
+    usuarioId: string,
+    enderecoEntrega: Endereco,) {
     const carrinho = await buscarCarrinho(usuarioId)
-    
+
     if (!carrinho) {
         throw new Error('Carrinho não existe')
     }
@@ -56,14 +59,14 @@ export async function finalizarPedido(usuarioId: string, enderecoEntrega: string
     return criarPedidoComItens({ usuarioId, carrinhoId: carrinho.id, enderecoEntrega, total, itens: itemFormatado })
 }
 
-export async function atualizarStatus(id: string, novoStatus:StatusPedido) {
+export async function atualizarStatus(id: string, novoStatus: StatusPedido) {
     const pedido = await buscarPedidoPorId(id)
 
     if (!pedido) {
-        throw new Error('Pedido não encontrado')    
+        throw new Error('Pedido não encontrado')
     }
-   
-    const permitido = transicoesPermitidas[pedido.status].includes(novoStatus)    
+
+    const permitido = transicoesPermitidas[pedido.status].includes(novoStatus)
 
     if (!permitido) {
         throw new Error(`Não é possível mudar de ${pedido.status} para ${novoStatus}`)
