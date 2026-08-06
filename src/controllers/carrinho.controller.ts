@@ -20,8 +20,12 @@ export async function adicionarController(req: Request, res: Response) {
         res.status(401).json({ mensagem: 'Não autenticado' })
         return
     }
-    const carrinho = await adicionarItem({...req.body, usuarioId: req.usuarioId});
-    res.status(201).json(carrinho);
+    try {
+        const carrinho = await adicionarItem({ ...req.body, usuarioId: req.usuarioId });
+        res.status(201).json(carrinho);
+    } catch (error) {
+        res.status(404).json({ mensagem: (error as Error).message });
+    }
 }
 
 export async function atualizarController(req: Request, res: Response) {
