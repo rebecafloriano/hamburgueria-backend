@@ -8,11 +8,13 @@ import { tratarErro } from './middlewares/erro.middleware';
 import helmet from 'helmet';
 import {env} from './config/env';
 import cors from 'cors'
+import {limiteGeral}  from './middlewares/rateLimit.middleware';
 
 
 const app = express();
 
 app.use(helmet())
+app.use(limiteGeral)
 app.use(express.json());
 app.use(cors({ origin: env.frontendUrl }))
 
