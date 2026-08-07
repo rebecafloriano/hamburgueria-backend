@@ -9,7 +9,8 @@ const envSchema = z.object({
     JWT_REFRESH_EXPIRES_IN: z.string().optional(),
     UF_PADRAO: z.enum(["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
         "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
-        "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"])
+        "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"]),
+    FRONTEND_URL: z.string().optional()
 });
 
 export const envValidado = envSchema.parse(process.env);

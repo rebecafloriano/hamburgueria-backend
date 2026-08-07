@@ -11,5 +11,6 @@ export const env = {
     refreshExpiresIn: envValidado.JWT_REFRESH_EXPIRES_IN || '7d',
   },
   ufPadrao: envValidado.UF_PADRAO,
+  frontendUrl: envValidado.FRONTEND_URL || 'http://localhost:5173'
   
 };
