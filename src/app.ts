@@ -4,6 +4,7 @@ import authRoutes from './routes/auth.routes';
 import produtoRoutes from './routes/produto.routes';
 import carrinhoRoutes from './routes/carrinho.routes'
 import pedidoRoutes from './routes/pedido.routes'
+import webhook from './routes/webhook.routes'
 import { tratarErro } from './middlewares/erro.middleware';
 import helmet from 'helmet';
 import {env} from './config/env';
@@ -13,6 +14,7 @@ import {limiteGeral}  from './middlewares/rateLimit.middleware';
 
 const app = express();
 
+app.use('/webhooks', webhook)
 app.use(helmet())
 app.use(limiteGeral)
 app.use(express.json());

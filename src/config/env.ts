@@ -11,6 +11,8 @@ export const env = {
     refreshExpiresIn: envValidado.JWT_REFRESH_EXPIRES_IN || '7d',
   },
   ufPadrao: envValidado.UF_PADRAO,
-  frontendUrl: envValidado.FRONTEND_URL || 'http://localhost:5173'
-  
+  frontendUrl: envValidado.FRONTEND_URL || 'http://localhost:5173',
+  stripeSecretKey: envValidado.STRIPE_SECRET_KEY,
+  stripeWebhookSecret: envValidado.STRIPE_WEBHOOK_SECRET
+
 };
