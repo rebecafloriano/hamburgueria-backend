@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { criarUsuario, buscarUsuarioPorEmail } from '../repositories/usuario.repository';
 import { gerarAccessToken, gerarRefreshToken, verificarRefreshToken } from '../utils/jwt';
 import { criarCarrinho } from '../repositories/carrinho.repository';
+import { ErroAplicacao } from '../errors/ErroAplicacao';
 
 const SALT_ROUNDS = 10;
 
@@ -13,7 +14,7 @@ export async function registrar(dados: {
 }) {
     const usuarioExistente = await buscarUsuarioPorEmail(dados.email);
     if (usuarioExistente) {
-        throw new Error('Email já cadastrado');
+        throw new ErroAplicacao('Email já cadastrado', 409);
     }
 
     const senhaHash = await bcrypt.hash(dados.senha, SALT_ROUNDS);
@@ -27,12 +28,12 @@ export async function registrar(dados: {
 export async function login(email: string, senha: string) {
     const usuario = await buscarUsuarioPorEmail(email);
     if (!usuario) {
-        throw new Error('Credenciais inválidas');
+        throw new ErroAplicacao('Credenciais inválidas', 401);
     }
 
     const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
     if (!senhaCorreta) {
-        throw new Error('Credenciais inválidas');
+        throw new ErroAplicacao('Credenciais inválidas', 401);
     }
 
     const accessToken = gerarAccessToken(usuario.id, usuario.role);
@@ -51,7 +52,7 @@ export function renovarToken(refreshToken: string) {
     try {
         payload = verificarRefreshToken(refreshToken);
     } catch {
-        throw new Error('Refresh token inválido ou expirado');
+        throw new ErroAplicacao('Refresh token inválido ou expirado', 401);
     }
 
     return { accessToken: gerarAccessToken(payload.sub, payload.role) };

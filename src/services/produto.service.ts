@@ -1,3 +1,4 @@
+import { ErroAplicacao } from '../errors/ErroAplicacao';
 import {
     listarProdutosDisponiveis,
     buscarProdutoPorId,
@@ -25,7 +26,7 @@ export async function atualizar(
 ) {
     const produto = await buscarProdutoPorId(id);
     if (!produto) {
-        throw new Error('Produto não encontrado');
+        throw new ErroAplicacao('Produto não encontrado', 404);
     }
     return atualizarProduto(id, dados);
 }
@@ -33,7 +34,7 @@ export async function atualizar(
 export async function desativar(id: string) {
     const produto = await buscarProdutoPorId(id);
     if (!produto) {
-        throw new Error('Produto não encontrado');
+        throw new ErroAplicacao('Produto não encontrado', 404);
     }
     return desativarProduto(id);
 }

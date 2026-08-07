@@ -7,6 +7,7 @@ import {
 import { buscarCarrinho } from "./carrinho.service";
 import { StatusPedido } from "../generated/prisma/enums";
 import { Endereco } from "../validators/pedido.validator";
+import { ErroAplicacao } from "../errors/ErroAplicacao";
 
 const transicoesPermitidas: Record<StatusPedido, StatusPedido[]> = {
     PENDENTE: ['EM_PREPARO', 'CANCELADO'],
@@ -20,11 +21,11 @@ export async function buscarPedidoUsuario(id: string, usuarioId: string) {
     const pedido = await buscarPedidoPorId(id)
 
     if (!pedido) {
-        throw new Error('Pedido não encontrado')
+        throw new ErroAplicacao('Pedido não encontrado', 404)
     }
 
     if (pedido.usuarioId !== usuarioId) {
-        throw new Error('Pedido não encontrado')
+        throw new ErroAplicacao('Pedido não encontrado', 404)
     }
     return pedido
 }
@@ -39,10 +40,10 @@ export async function finalizarPedido(
     const carrinho = await buscarCarrinho(usuarioId)
 
     if (!carrinho) {
-        throw new Error('Carrinho não existe')
+        throw new ErroAplicacao('Carrinho não existe', 404)
     }
     if (carrinho.itens.length === 0) {
-        throw new Error('Carrinho vazio')
+        throw new ErroAplicacao('Carrinho vazio', 400)
     }
 
     const total = carrinho.itens.reduce((acumulado, item) => {
@@ -63,13 +64,13 @@ export async function atualizarStatus(id: string, novoStatus: StatusPedido) {
     const pedido = await buscarPedidoPorId(id)
 
     if (!pedido) {
-        throw new Error('Pedido não encontrado')
+        throw new ErroAplicacao('Pedido não encontrado', 404)
     }
 
     const permitido = transicoesPermitidas[pedido.status].includes(novoStatus)
 
     if (!permitido) {
-        throw new Error(`Não é possível mudar de ${pedido.status} para ${novoStatus}`)
+        throw new ErroAplicacao(`Não é possível mudar de ${pedido.status} para ${novoStatus}`, 400)
     }
 
     return atualizarStatusNoBanco(id, novoStatus)

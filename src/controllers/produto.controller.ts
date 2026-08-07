@@ -18,12 +18,10 @@ export async function atualizarController(req: Request, res: Response) {
         return;
     }
 
-    try {
-        const produto = await atualizar(id, req.body);
-        res.json(produto);
-    } catch (error) {
-        res.status(404).json({ mensagem: (error as Error).message });
-    }
+
+    const produto = await atualizar(id, req.body);
+    res.json(produto);
+
 }
 
 export async function desativarController(req: Request, res: Response) {
@@ -33,10 +31,8 @@ export async function desativarController(req: Request, res: Response) {
         return;
     }
 
-    try {
-        await desativar(id);
-        res.status(204).send();
-    } catch (error) {
-        res.status(404).json({ mensagem: (error as Error).message });
-    }
+
+    await desativar(id);
+    res.status(204).send();
+
 }

@@ -20,12 +20,10 @@ export async function buscarController(req: Request, res: Response) {
         return
     }
 
-    try {
-        const pedido = await buscarPedidoUsuario(req.params.id, req.usuarioId)
-        res.json(pedido)
-    } catch (error) {
-        res.status(404).json({ mensagem: (error as Error).message })
-    }
+
+    const pedido = await buscarPedidoUsuario(req.params.id, req.usuarioId)
+    res.json(pedido)
+
 }
 
 export async function finalizarController(req: Request, res: Response) {
@@ -34,12 +32,9 @@ export async function finalizarController(req: Request, res: Response) {
         return
     }
 
-    try {
-        const pedido = await finalizarPedido(req.usuarioId, req.body.enderecoEntrega)
-        res.status(201).json(pedido);
-    } catch (error) {
-        res.status(400).json({ mensagem: (error as Error).message })
-    }
+    const pedido = await finalizarPedido(req.usuarioId, req.body.enderecoEntrega)
+    res.status(201).json(pedido);
+
 }
 
 export async function listarController(req: Request, res: Response) {
@@ -58,10 +53,8 @@ export async function statusController(req: Request, res: Response) {
         return
     }
 
-    try {
-        const pedido = await atualizarStatus(req.params.id, req.body.status)
-        res.json(pedido)
-    } catch (error) {
-        res.status(400).json({ mensagem: (error as Error).message })
-    }
+
+    const pedido = await atualizarStatus(req.params.id, req.body.status)
+    res.json(pedido)
+
 }

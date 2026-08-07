@@ -1,6 +1,6 @@
+import { ErroAplicacao } from "../errors/ErroAplicacao";
 import {
     buscarCarrinhoPorUsuarioId,
-    criarCarrinho,
     adicionarItemAoCarrinho,
     atualizarItemDoCarrinho,
     removerItemDoCarrinho
@@ -21,7 +21,7 @@ export async function adicionarItem(dados: {
     const carrinho = await buscarCarrinhoPorUsuarioId(dados.usuarioId)
 
     if (!carrinho) {
-        throw new Error('Carrinho não encontrado')
+        throw new ErroAplicacao('Carrinho não encontrado', 404)
     }
 
     const itemExistente = carrinho.itens.find((item) => item.produtoId === dados.produtoId)
@@ -45,13 +45,13 @@ export async function atualizarItem(
     const carrinho = await buscarCarrinhoPorUsuarioId(dados.usuarioId)
 
     if (!carrinho) {
-        throw new Error('Carrinho não encontrado')
+        throw new ErroAplicacao('Carrinho não encontrado', 404)
     }
 
     const itemExistente = carrinho.itens.find((item) => item.produtoId === dados.produtoId)
 
     if (!itemExistente) {
-        throw new Error('Item não encontrado')
+        throw new ErroAplicacao('Item não encontrado', 404)
         
     }
     return atualizarItemDoCarrinho(itemExistente.id, dados.quantidade)
@@ -64,13 +64,13 @@ export async function removerItem(dados: {
     const carrinho = await buscarCarrinhoPorUsuarioId(dados.usuarioId)
 
     if (!carrinho) {
-        throw new Error('Carrinho não encontrado')
+        throw new ErroAplicacao('Carrinho não encontrado', 404)
     }
 
     const itemExistente = carrinho.itens.find((item) => item.produtoId === dados.produtoId)
 
     if (!itemExistente) {
-        throw new Error('Item não encontrado')
+        throw new ErroAplicacao('Item não encontrado', 404)
 
     }
     return removerItemDoCarrinho(itemExistente.id)
