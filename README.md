@@ -47,24 +47,24 @@ Detalhes completos do processo (plano, casos de teste e execução) estão docum
 
 ### Rodando os testes automatizados
 
-\`\`\`bash
+`
 npm test
-\`\`\`
+`
 
 Suíte atual (`src/tests/auth.test.ts`) — 11 testes, cobrindo `POST /auth/registrar`, `POST /auth/login` e `POST /auth/refresh`:
 
-\`\`\`
+```
 ✓ POST /auth/registrar (6)
 ✓ POST /auth/login (3)
 ✓ POST /auth/refresh (2)
 
 Test Files  1 passed (1)
      Tests  11 passed (11)
-\`\`\`
+```
 
 ## Estrutura do projeto
 
-\`\`\`
+```
 src/
 ├── config/         # configuração (Prisma, env)
 ├── controllers/     # camada de entrada HTTP
@@ -75,19 +75,19 @@ src/
 ├── tests/              # testes automatizados (Vitest + Supertest)
 ├── app.ts              # instância do Express (exportada para testes)
 └── index.ts            # ponto de entrada (app.listen)
-\`\`\`
+```
 
 ## Como rodar localmente
 
-\`\`\`bash
+```bash
 git clone https://github.com/rebecafloriano/hamburgueria-backend.git
 cd hamburgueria-backend
 npm install
-\`\`\`
+```
 
 Crie um arquivo `.env` na raiz com as variáveis necessárias (ajuste os nomes conforme `src/config/env.ts`):
 
-\`\`\`
+```
 DATABASE_URL=
 JWT_SECRET=
 JWT_REFRESH_SECRET=
@@ -96,14 +96,14 @@ JWT_REFRESH_EXPIRES_IN=
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 PORT=
-\`\`\`
+```
 
 Depois:
 
-\`\`\`bash
+```bash
 npx prisma migrate dev
 npm run dev
-\`\`\`
+```
 
 ## Scripts
 
