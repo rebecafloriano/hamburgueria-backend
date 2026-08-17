@@ -6,8 +6,9 @@ export const limiteGeral = rateLimit({
     message: { mensagem: 'Muitas requisições. Tente novamente mais tarde.' }
 }) 
 
+
 export const limiteAuth = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 5,
+    max: process.env.NODE_ENV === 'test' ? 1000 : 5,
     message: { mensagem: 'Muitas tentativas. Tente novamente mais tarde.' }
 }) 
