@@ -22,7 +22,7 @@ export async function registrar(dados: {
 
     await criarCarrinho(usuario.id)
 
-    return { id: usuario.id, nome: usuario.nome, email: usuario.email };
+    return { id: usuario.id, nome: usuario.nome, telefone: usuario.telefone, email: usuario.email };
 }
 
 export async function login(email: string, senha: string) {
@@ -48,6 +48,10 @@ export async function login(email: string, senha: string) {
 
 export function renovarToken(refreshToken: string) {
     let payload;
+
+    if (!refreshToken) {
+        throw new ErroAplicacao('RefreshToken não fornecido', 401)
+    }
 
     try {
         payload = verificarRefreshToken(refreshToken);
