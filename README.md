@@ -1,5 +1,7 @@
 # Hamburgueria API
 
+🇧🇷 Português | [🇺🇸 English](./README.en.md)
+
 API REST para gerenciamento de pedidos de uma hamburgueria: autenticação de usuários, cardápio, carrinho de compras, pedidos e pagamento integrado com Stripe.
 
 ## Tecnologias
